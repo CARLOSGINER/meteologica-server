@@ -13,32 +13,34 @@ const path =require('path');
 const cors = require('cors');
 
 // ** MIDDLEWARE ** //
-const whitelist = ['http://localhost:3000', 'http://localhost:4001']
-const corsOptions = {
-  origin: function (origin, callback) {
-    console.log("** Origin of request " + origin)
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      console.log("Origin acceptable")
-      callback(null, true)
-    } else {
-      console.log("Origin rejected")
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
+// const whitelist = ['http://localhost:3000', 'http://localhost:4001']
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     console.log("** Origin of request " + origin)
+//     if (whitelist.indexOf(origin) !== -1 || !origin) {
+//       console.log("Origin acceptable")
+//       callback(null, true)
+//     } else {
+//       console.log("Origin rejected")
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
 
+// app.use(cors(corsOptions));
+app.use(cors())
 app.use(index);
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-app.use(cors(corsOptions))
 
-if (process.env.NODE_ENV === "production"){
-    app.use(express.static(path.join(__dirname, 'client/build')));
-    app.get('*',  (req,res)=>{
-        res.sendFile(path.join(__dirname, 'client/build','index.html'));
-    })
-}
 
+
+// if (process.env.NODE_ENV === "production"){
+//     app.use(express.static(path.join(__dirname, 'client/build')));
+//     app.get('*',  (req,res)=>{
+//         res.sendFile(path.join(__dirname, 'client/build','index.html'));
+//     })
+// }
 
 
 const rawData = fs.readFileSync('data.yml');
@@ -69,7 +71,6 @@ io.on("connection", (socket) => {
       console.log("Client disconnected");
     });
 });
-
 
 
 
