@@ -54,11 +54,11 @@ const sendDelayData = async (socket) =>{
     }
 }
 
-io.on("connection", (socket) => {
+io.once("connection", (socket) => {
 
     console.log("New client connected");
     disconnected=false;
-    sendDelayData(socket)
+    sendDelayData(socket)   
 
     socket.on("disconnect", () => {
       console.log("Client disconnected");
