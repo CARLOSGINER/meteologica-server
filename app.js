@@ -18,7 +18,7 @@ app.use(cors({
     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }));  
 
-app.options('/',(req, res, next) => {
+app.options('https://meteologica-app-server.herokuapp.com/',(req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
     res.header('Access-Control-Allow-Methods', '*');
