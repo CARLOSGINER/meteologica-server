@@ -49,16 +49,16 @@ const sendDelayData = async (socket) =>{
     }
 }
 
-io.on("connection", (socket) => {
+io.once("connection", (socket) => {
 
     console.log("New client connected");
     sendDelayData(socket)   
 
+    socket.on("disconnect", () => {
+        console.log("Client disconnected");
+    });
 });
 
-socket.on("disconnect", () => {
-    console.log("Client disconnected");
-    socket.disconnect()
-});
+
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
