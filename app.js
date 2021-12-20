@@ -26,22 +26,6 @@ app.options('https://meteologica-app-server.herokuapp.com/',(req, res, next) => 
 });
 
 
-
-// // ** MIDDLEWARE ** //
-// const whitelist = ['http://localhost:3000', 'http://localhost:4001','https://meteologica-app-server.herokuapp.com/']
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     console.log("** Origin of request " + origin)
-//     if (whitelist.indexOf(origin) !== -1 || !origin) {
-//       console.log("Origin acceptable")
-//       callback(null, true)
-//     } else {
-//       console.log("Origin rejected")
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
-
 app.use(index);
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
