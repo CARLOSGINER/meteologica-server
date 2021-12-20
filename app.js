@@ -58,6 +58,7 @@ io.on("connection", (socket) => {
 
     console.log("New client connected");
     sendDelayData(socket)
+    disconnected=false;
 
     socket.on("disconnect", () => {
       console.log("Client disconnected");
