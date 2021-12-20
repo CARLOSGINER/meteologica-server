@@ -3,6 +3,7 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const port = process.env.PORT || 4001;
+const socketIo = require("socket.io");
 const io = socketIo(server);
 const index = require("./routes/index");
 const bodyParser = require('body-parser');
@@ -10,7 +11,6 @@ const fs = require('fs');
 const YAML = require('js-yaml');
 const path =require('path');
 const cors = require('cors');
-const socketIo = require("socket.io");
 
 
 // // ** MIDDLEWARE ** //
