@@ -56,7 +56,7 @@ io.once("connection", (socket) => {
 
     socket.on("disconnect", () => {
       console.log("Client disconnected");
-      process.exit()
+      socket.disconnect()
     });
 });
 
