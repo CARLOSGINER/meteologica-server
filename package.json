@@ -18,12 +18,13 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "concurrently": "^6.4.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
     "js-yaml": "^4.1.0",
     "socket.io": "^4.4.0"
   },
   "engines": {
-    "node":">=14"
+    "node": ">=14"
   }
 }

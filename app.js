@@ -13,10 +13,12 @@ const path =require('path');
 const cors = require('cors');
 
 
-const corsOptions = {
-    origin: 'https://61c05b44c123ae096af20990--meteologica-app-front.netlify.app',
-    optionsSuccessStatus: 200
-}
+app.use(cors({
+    origin: '*',
+    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}));  
+
+
 
 // // ** MIDDLEWARE ** //
 // const whitelist = ['http://localhost:3000', 'http://localhost:4001','https://meteologica-app-server.herokuapp.com/']
@@ -33,19 +35,18 @@ const corsOptions = {
 //   }
 // }
 
-app.use(cors(corsOptions))
 app.use(index);
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*"); 
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method, Access-Control-Allow-Credentials');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "*"); 
+//     res.header('Access-Control-Allow-Credentials', true);
+//     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method, Access-Control-Allow-Credentials');
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+//     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+//     next();
+// });
 
 const rawData = fs.readFileSync('data.yml');
 const data = YAML.load(rawData);
