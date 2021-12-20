@@ -3,7 +3,14 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const port = process.env.PORT || 4001;
-const socketIo = require("socket.io");
+const socketIo = require("socket.io")(http, {
+    cors: {
+      origin: "https://example.com",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true
+    }
+  });;
 const io = socketIo(server);
 const index = require("./routes/index");
 const bodyParser = require('body-parser');
