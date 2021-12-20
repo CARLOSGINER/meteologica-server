@@ -10,7 +10,7 @@ const fs = require('fs');
 const YAML = require('js-yaml');
 const path =require('path');
 const cors = require('cors');
-const socketIo = require("socket.io")(server, {
+const socketIo = require("socket.io")(httpServer, {
 
     cors: {
         origin: "https://meteologica-app-server.herokuapp.com/",
@@ -42,14 +42,14 @@ app.use(index);
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-// app.use((req, res, next) => {
-//     res.header("Access-Control-Allow-Origin", "request.get('origin')"); 
-//     res.header('Access-Control-Allow-Credentials', true);
-//     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method, Access-Control-Allow-Credentials');
-//     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-//     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-//     next();
-// });
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*"); 
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method, Access-Control-Allow-Credentials');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 
 const rawData = fs.readFileSync('data.yml');
 const data = YAML.load(rawData);
