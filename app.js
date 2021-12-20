@@ -3,7 +3,6 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const port = process.env.PORT || 4001;
-const socketIo = require("socket.io");
 const io = socketIo(server);
 const index = require("./routes/index");
 const bodyParser = require('body-parser');
@@ -11,6 +10,28 @@ const fs = require('fs');
 const YAML = require('js-yaml');
 const path =require('path');
 const cors = require('cors');
+const socketIo = require("socket.io")(server, {
+
+    cors: {
+        origin: "https://example.com",
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true
+      },
+
+    origins: ["https://meteologica-app-server.herokuapp.com/"],
+  
+    handlePreflightRequest: (req, res) => {
+      res.writeHead(200, {
+        "Access-Control-Allow-Origin": "https://meteologica-app-server.herokuapp.com/",
+        "Access-Control-Allow-Methods": "GET,POST",
+        "Access-Control-Allow-Headers": "my-custom-header",
+        "Access-Control-Allow-Credentials": true
+      });
+      res.end();
+    }
+  });;
+
 
 // // ** MIDDLEWARE ** //
 // const whitelist = ['http://localhost:3000', 'http://localhost:4001','https://meteologica-app-server.herokuapp.com/']
@@ -33,14 +54,14 @@ app.use(index);
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "request.get('origin')"); 
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method, Access-Control-Allow-Credentials');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", "request.get('origin')"); 
+//     res.header('Access-Control-Allow-Credentials', true);
+//     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method, Access-Control-Allow-Credentials');
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+//     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+//     next();
+// });
 
 const rawData = fs.readFileSync('data.yml');
 const data = YAML.load(rawData);
