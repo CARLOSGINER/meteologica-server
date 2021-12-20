@@ -3,12 +3,7 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const port = process.env.PORT || 4001;
-const socketIo = require("socket.io")(server, {
-    cors: {
-      origin: "https://meteologica-app-server.herokuapp.com/",
-      methods: ["GET", "POST"]
-    }
-  });;
+const socketIo = require("socket.io");
 const io = socketIo(server);
 const index = require("./routes/index");
 const bodyParser = require('body-parser');
@@ -17,6 +12,11 @@ const YAML = require('js-yaml');
 const path =require('path');
 const cors = require('cors');
 
+
+const corsOptions = {
+    origin: 'https://meteologica-app-server.herokuapp.com/',
+    optionsSuccessStatus: 200
+}
 
 // // ** MIDDLEWARE ** //
 // const whitelist = ['http://localhost:3000', 'http://localhost:4001','https://meteologica-app-server.herokuapp.com/']
@@ -34,7 +34,7 @@ const cors = require('cors');
 // }
 
 // app.use(cors(corsOptions)); 
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(index);
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
