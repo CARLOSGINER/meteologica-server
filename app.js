@@ -13,24 +13,12 @@ const cors = require('cors');
 const socketIo = require("socket.io")(server, {
 
     cors: {
-        origin: "https://example.com",
+        origin: "https://meteologica-app-server.herokuapp.com/",
         methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
         credentials: true
       },
-
-    origins: ["https://meteologica-app-server.herokuapp.com/"],
-  
-    handlePreflightRequest: (req, res) => {
-      res.writeHead(200, {
-        "Access-Control-Allow-Origin": "https://meteologica-app-server.herokuapp.com/",
-        "Access-Control-Allow-Methods": "GET,POST",
-        "Access-Control-Allow-Headers": "my-custom-header",
-        "Access-Control-Allow-Credentials": true
-      });
-      res.end();
-    }
-  });;
+  });
 
 
 // // ** MIDDLEWARE ** //
