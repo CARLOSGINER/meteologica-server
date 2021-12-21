@@ -41,6 +41,9 @@ const valuesCount = data.temperature.values.length
 
 const sendDelayData = async (socket) =>{
     for (let i = 0; i < valuesCount; i++) {
+        if (connected===false) {
+            break;
+        }
         updatedTemperatures.push(data.temperature.values[i]);
         updatedPowers.push(data.power.values[i]);
         await new Promise(done => setTimeout(() => done(), 5000))
@@ -50,7 +53,6 @@ const sendDelayData = async (socket) =>{
     }
 }
 
-if(!connected){
     io.on("connection", (socket) => {
 
         connected = !connected
@@ -64,7 +66,6 @@ if(!connected){
             connected = !connected
         });
     });
-}
 
 
 
