@@ -50,19 +50,21 @@ const sendDelayData = async (socket) =>{
     }
 }
 
-io.on("connection", (socket) => {
+if(!connected){
+    io.on("connection", (socket) => {
 
-    connected = !connected
-
-    if (connected) {
-        sendDelayData(socket)   
-    }
-
-    socket.on("disconnect", () => {
-        console.log("Client disconnected");
         connected = !connected
+    
+        if (connected) {
+            sendDelayData(socket)   
+        }
+    
+        socket.on("disconnect", () => {
+            console.log("Client disconnected");
+            connected = !connected
+        });
     });
-});
+}
 
 
 
