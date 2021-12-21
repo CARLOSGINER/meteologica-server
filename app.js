@@ -12,6 +12,7 @@ const YAML = require('js-yaml');
 const path =require('path');
 const cors = require('cors');
 
+let connected = false;
 
 app.use(cors({
     origin: '*',
@@ -49,13 +50,17 @@ const sendDelayData = async (socket) =>{
     }
 }
 
-io.once("connection", (socket) => {
+io.on("connection", (socket) => {
 
-    console.log("New client connected");
-    sendDelayData(socket)   
+    connected = !connected
+
+    if (connected) {
+        sendDelayData(socket)   
+    }
 
     socket.on("disconnect", () => {
         console.log("Client disconnected");
+        connected = !connected
     });
 });
 
