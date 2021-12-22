@@ -41,31 +41,34 @@ const valuesCount = data.temperature.values.length
 
 const sendDelayData = async (socket) =>{
     for (let i = 0; i < valuesCount; i++) {
-        if (connected===false) {
-            break;
+        if (connected===true) {
+            return;
         }
         updatedTemperatures.push(data.temperature.values[i]);
         updatedPowers.push(data.power.values[i]);
         await new Promise(done => setTimeout(() => done(), 5000))
         console.log(updatedTemperatures[updatedTemperatures.length-1]);
         console.log(updatedPowers[updatedPowers.length-1]);
-        socket.emit("FromAPI",{updatedTemperatures,updatedPowers});   
+        socket.emit("FromAPI",{updatedTemperatures,updatedPowers});
+        if (i===valuesCount-1){
+            i = 0;
+        }   
     }
 }
 
-    io.on("connection", (socket) => {
+io.on("connection", (socket) => {
 
+    connected = !connected
+
+    if (connected) {
+        sendDelayData(socket)   
+    }
+
+    socket.on("disconnect", () => {
+        console.log("Client disconnected");
         connected = !connected
-    
-        if (connected) {
-            sendDelayData(socket)   
-        }
-    
-        socket.on("disconnect", () => {
-            console.log("Client disconnected");
-            connected = !connected
-        });
     });
+});
 
 
 
