@@ -60,7 +60,7 @@ io.on("connection", (socket) => {
 
     connected = !connected
 
-    if (connected) {
+    if (connected === false) {
         sendDelayData(socket)   
     }
 
