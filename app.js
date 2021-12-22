@@ -25,11 +25,9 @@ app.options('https://meteologica-app-server.herokuapp.com/',(req, res, next) => 
     next();
 });
 
-
 app.use(index);
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
-
 
 const rawData = fs.readFileSync('data.yml');
 const data = YAML.load(rawData);
@@ -45,7 +43,7 @@ const sendDelayData = async (socket) =>{
         await new Promise(done => setTimeout(() => done(), 5000))
         console.log(updatedTemperatures[updatedTemperatures.length-1]);
         console.log(updatedPowers[updatedPowers.length-1]);
-        socket.emit("FromAPI",{updatedTemperatures,updatedPowers});
+        socket.emit("FromAPI",{updatedTemperatures,updatedPowers,usersCount});
         if (i===valuesCount-1){
             i = 0;
         }   
@@ -54,13 +52,13 @@ const sendDelayData = async (socket) =>{
 
 io.on("connection", (socket) => {
 
+    const usersCount = io.sockets.sockets.length;
     sendDelayData(socket)   
 
     socket.on("disconnect", () => {
         console.log("Client disconnected");
     });
 });
-
 
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
