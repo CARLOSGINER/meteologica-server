@@ -12,7 +12,6 @@ const YAML = require('js-yaml');
 const path =require('path');
 const cors = require('cors');
 
-let connected = false;
 
 app.use(cors({
     origin: '*',
@@ -41,15 +40,12 @@ const valuesCount = data.temperature.values.length
 
 const sendDelayData = async (socket) =>{
     for (let i = 0; i < valuesCount; i++) {
-        if (connected===true) {
-            return;
-        }
         updatedTemperatures.push(data.temperature.values[i]);
         updatedPowers.push(data.power.values[i]);
         await new Promise(done => setTimeout(() => done(), 5000))
         console.log(updatedTemperatures[updatedTemperatures.length-1]);
         console.log(updatedPowers[updatedPowers.length-1]);
-        socket.emit("FromAPI",{updatedTemperatures,updatedPowers,connected});
+        socket.emit("FromAPI",{updatedTemperatures,updatedPowers});
         if (i===valuesCount-1){
             i = 0;
         }   
@@ -58,15 +54,10 @@ const sendDelayData = async (socket) =>{
 
 io.on("connection", (socket) => {
 
-    connected = !connected
-
-    if (connected === false) {
-        sendDelayData(socket)   
-    }
+    sendDelayData(socket)   
 
     socket.on("disconnect", () => {
         console.log("Client disconnected");
-        connected = !connected
     });
 });
 
