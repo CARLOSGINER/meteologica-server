@@ -49,7 +49,7 @@ const sendDelayData = async (socket) =>{
         await new Promise(done => setTimeout(() => done(), 5000))
         console.log(updatedTemperatures[updatedTemperatures.length-1]);
         console.log(updatedPowers[updatedPowers.length-1]);
-        socket.emit("FromAPI",{updatedTemperatures,updatedPowers});
+        socket.emit("FromAPI",{updatedTemperatures,updatedPowers,connected});
         if (i===valuesCount-1){
             i = 0;
         }   
