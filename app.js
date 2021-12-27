@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 'https://meteologica-app-server.herokuapp.com';
 const socketIo = require("socket.io");
 const io = socketIo(server);
 const index = require("./routes/index");
@@ -18,7 +18,7 @@ app.use(cors({
     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }));  
 
-app.options('https://meteologica-app-server.herokuapp.com',(req, res, next) => {
+app.options('https://meteologica-app-server.herokuapp.com/',(req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
     res.header('Access-Control-Allow-Methods', '*');
@@ -26,8 +26,8 @@ app.options('https://meteologica-app-server.herokuapp.com',(req, res, next) => {
 });
 
 app.use(index);
-// app.use(bodyParser.urlencoded({extended:false}));
-// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
 
 //Aqui la data es pasada a JSON para poder trabajar con ella. 
 const rawData = fs.readFileSync('data.yml');
