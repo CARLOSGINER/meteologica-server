@@ -4,7 +4,12 @@ const http = require("http");
 const server = http.createServer(app);
 const port = process.env.PORT || 4001;
 const socketIo = require("socket.io");
-const io = socketIo(server);
+const io = socketIo(server,{
+    cors: {
+      origin: "https://61c041a9852c5c57e5585f97--meteologica-app-front.netlify.app/",
+      methods: ["GET", "POST"]
+    }
+  });
 const index = require("./routes/index");
 const bodyParser = require('body-parser');
 const fs = require('fs');
