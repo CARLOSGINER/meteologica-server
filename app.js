@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const port = process.env.PORT || 'https://meteologica-app-server.herokuapp.com';
+const port = process.env.PORT || "https://meteologica-app-server.herokuapp.com";
+// const port = process.env.PORT || 4001;
 const socketIo = require("socket.io");
 const io = socketIo(server);
 const index = require("./routes/index");
@@ -18,7 +19,7 @@ app.use(cors({
     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }));  
 
-app.options('https://meteologica-app-server.herokuapp.com/',(req, res, next) => {
+app.options('https://meteologica-app-server.herokuapp.com',(req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', '*');
     res.header('Access-Control-Allow-Methods', '*');
@@ -46,6 +47,20 @@ const getData = () =>{
     updatedPowers.push(data.power.values[count]);
 }
 
+
+io.on("connection", (socket) => {
+
+    //esto solo para visualizar en consola cuantos cientes hay conectados y desconectados. Nota: para verlo en el browser hace falta 
+    //una librería adicional no instalada aún. 
+    const usersCount = Object.keys(io.engine.clients).length
+    console.log(`${usersCount} users connected`)
+    
+    socket.on("disconnect", () => {
+        console.log("Client disconnected");
+    });
+});
+
+
 //Según lo solicitado se actualizan los datos cada 5 segundos. Count sirve para llevar cuenta y que al llegar al final 
 //de los datos (de prueba) proveidos, vuelva a comenzar de 0.  
 setInterval(() => {
@@ -59,19 +74,6 @@ setInterval(() => {
     getData()
     io.emit("sendingData",{updatedTemperatures,updatedPowers}); 
 }, 5000);
-
-
-io.on("connection", (socket) => {
-
-    //esto solo para visualizar en consola cuantos cientes hay conectados y desconectados. Nota: para verlo en el browser hace falta 
-    //una librería adicional no instalada aún. 
-    const usersCount = Object.keys(io.engine.clients).length
-    console.log(`${usersCount} users connected`)
-    
-    socket.on("disconnect", () => {
-        console.log("Client disconnected");
-    });
-});
 
 
 
