@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
-const port = process.env.PORT || "https://meteologica-app-server.herokuapp.com";
-// const port = process.env.PORT || 4001;
+// const port = process.env.PORT || "https://meteologica-app-server.herokuapp.com";
+const port = process.env.PORT || 4001;
 const socketIo = require("socket.io");
 const io = socketIo(server);
 const index = require("./routes/index");
@@ -19,10 +19,11 @@ app.use(cors({
     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }));  
 
-app.options('https://meteologica-app-server.herokuapp.com',(req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', '*');
-    res.header('Access-Control-Allow-Methods', '*');
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
     next();
 });
 
@@ -58,6 +59,10 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("Client disconnected");
     });
+
+    socket.on("connect_error", (err) => {
+        console.log(`connect_error due to ${err.message}`);
+      });
 });
 
 
