@@ -8,10 +8,7 @@ const io = socketIo(server,{
     cors: {
       origin: "https://61cabe1feb07cbe6070961cb--meteologica-app-front.netlify.app",
       methods: ["GET", "POST"],
-      transports: ['websocket', 'polling'],
-      credentials: true
     },
-    allowEIO3: true
   });
 const index = require("./routes/index");
 const bodyParser = require('body-parser');
