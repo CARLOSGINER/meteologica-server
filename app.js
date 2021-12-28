@@ -6,7 +6,7 @@ const port = process.env.PORT || 4001;
 const socketIo = require("socket.io");
 const io = socketIo(server,{
     cors: {
-      origin: "https://61cabe1feb07cbe6070961cb--meteologica-app-front.netlify.app",
+      origin: "https://61cad72bbd57230dd52dae3f--meteologica-app-front.netlify.app",
       methods: ["GET", "POST"],
     },
   });
