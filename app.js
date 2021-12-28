@@ -6,7 +6,7 @@ const port = process.env.PORT || 4001;
 const socketIo = require("socket.io");
 const io = socketIo(server,{
     cors: {
-      origin: "https://meteologica-app-server.herokuapp.com",
+      origin: "*",
       methods: ["GET", "POST"]
     }
   });
@@ -18,18 +18,18 @@ const path =require('path');
 const cors = require('cors');
 
 //configuracion para permiter CORS en el browser
-app.use(cors({
-    origin: '*',
-    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
-}));  
+// app.use(cors({
+//     origin: '*',
+//     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+// }));  
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
-    res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-    next();
-});
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//     res.header("Access-Control-Allow-Headers", "Content-Type");
+//     res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+//     next();
+// });
 
 app.use(index);
 app.use(bodyParser.urlencoded({extended:false}));
