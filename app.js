@@ -20,14 +20,6 @@ const cors = require('cors');
 //configuracion para permiter CORS en el browser
 app.use(cors());  
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-//     res.header("Access-Control-Allow-Headers", "Content-Type");
-//     res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-//     next();
-// });
-
 app.use(index);
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
