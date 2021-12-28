@@ -6,7 +6,7 @@ const port = process.env.PORT || 4001;
 const socketIo = require("socket.io");
 const io = socketIo(server,{
     cors: {
-      origin: "https://61c041a9852c5c57e5585f97--meteologica-app-front.netlify.app/",
+      origin: "https://61caba2a6b806509e1d74b81--meteologica-app-front.netlify.app/",
       methods: ["GET", "POST"],
       transports: ['websocket', 'polling'],
       credentials: true
@@ -21,10 +21,7 @@ const path =require('path');
 const cors = require('cors');
 
 //configuracion para permiter CORS en el browser
-// app.use(cors({
-//     origin: '*',
-//     methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
-// }));  
+app.use(cors());  
 
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "*");
