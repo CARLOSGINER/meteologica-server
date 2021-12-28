@@ -7,8 +7,11 @@ const socketIo = require("socket.io");
 const io = socketIo(server,{
     cors: {
       origin: "*",
-      methods: ["GET", "POST"]
-    }
+      methods: ["GET", "POST"],
+      transports: ['websocket', 'polling'],
+      credentials: true
+    },
+    allowEIO3: true
   });
 const index = require("./routes/index");
 const bodyParser = require('body-parser');
